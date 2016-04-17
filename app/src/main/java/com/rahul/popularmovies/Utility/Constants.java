@@ -10,9 +10,15 @@ import java.util.ArrayList;
 public class Constants {
     public static String BASE_URL = "https://api.themoviedb.org";
     public static String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185//";
-    public static String API_KEY = "Your api key";
+    public static String API_KEY = "YOUR API KEY";
     public static String POPULAR = "popular";
+    public static String MOVIE_TITLE = "movie_title";
+    public static String RATING = "rating";
+    public static String OVERVIEW = "overview";
+    public static String DATE = "date";
     public static String TOP_RATED = "top_rated";
+    public static boolean MOVIE_IS_LOADED = false;
+
     public static ArrayList<Movie> MOVIE_LIST= new ArrayList<>();
 
 

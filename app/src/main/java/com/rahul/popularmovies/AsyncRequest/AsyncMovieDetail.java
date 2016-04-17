@@ -76,18 +76,14 @@ public class AsyncMovieDetail extends AsyncTask<String,String,String> {
             responseCode = urlConnection.getResponseCode();
             response = buffer.toString();
             JSONObject jsonObject = new JSONObject(response);
-//            Log.d(TAG, "Response:" + response);
-
             JSONArray jsonArray = jsonObject.getJSONArray("results");
-
+            Constants.MOVIE_LIST = new ArrayList<Movie>();
             for (int i = 0; i < jsonArray.length(); ++i) {
                 String poster_path = jsonArray.getJSONObject(i).getString("poster_path");
                 String overview = jsonArray.getJSONObject(i).getString("overview");
                 String release_date = jsonArray.getJSONObject(i).getString("release_date");
                 String original_title = jsonArray.getJSONObject(i).getString("original_title");
                 String vote_average = jsonArray.getJSONObject(i).getString("vote_average");
-//                public Movie(String poster_path, String overview, String release_date, String original_title, String vote_average) {
-
                 Constants.MOVIE_LIST.add(new Movie(poster_path, overview, release_date, original_title, vote_average));
             }
 
@@ -108,8 +104,10 @@ public class AsyncMovieDetail extends AsyncTask<String,String,String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         if (responseCode == 200) {
+            Constants.MOVIE_IS_LOADED = true;
+            Log.d(TAG,"OnPostExecute");
             Intent intent = new Intent("UpdateMovie");
-            intent.putExtra("movieList",true);
+            intent.putExtra("movieList", true);
             LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
         }

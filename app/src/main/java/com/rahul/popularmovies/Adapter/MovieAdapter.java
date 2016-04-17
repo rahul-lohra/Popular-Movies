@@ -2,6 +2,8 @@ package com.rahul.popularmovies.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +52,11 @@ public class MovieAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater li = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = li.inflate(R.layout.movie_poster, null);
+        if(convertView==null)
+        {
+            convertView = li.inflate(R.layout.movie_poster,parent,false);
+        }
+
 
         if(movieList!=null)
         {
@@ -59,7 +65,7 @@ public class MovieAdapter extends BaseAdapter {
                 return null;
             }
 
-            ImageView imageView = (ImageView)convertView.findViewById(R.id.imageView);
+            final ImageView imageView = (ImageView)convertView.findViewById(R.id.imageView);
             String str = movieList.get(position).getPoster_path();
             String img_path = str.substring(1);
             String img_url = Constants.BASE_POSTER_URL+img_path;
@@ -75,10 +81,12 @@ public class MovieAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, MovieDetailActivity.class);
-                    intent.putExtra("movie_title",movie_title);
-                    intent.putExtra("overview",overview);
-                    intent.putExtra("release_date",release_date);
-                    intent.putExtra("rating",rating);
+                    intent.putExtra(Constants.MOVIE_TITLE,movie_title);
+                    intent.putExtra(Constants.OVERVIEW,overview);
+                    intent.putExtra(Constants.DATE,release_date);
+                    intent.putExtra(Constants.RATING,rating);
+                    Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                    intent.putExtra("image",bitmap);
                     context.startActivity(intent);
 
                 }

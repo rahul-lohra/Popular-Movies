@@ -10,6 +10,9 @@
     tools:context="com.rahul.popularmovies.Activities.MovieDetailActivity">
 
     <TextView
+        android:textColor="@color/white"
+        android:textSize="25dp"
+        android:background="@color/grassyGreen"
         android:paddingTop="30dp"
         android:paddingLeft="30dp"
         android:text="Movie name"
@@ -18,6 +21,7 @@
         android:layout_height="100dp" />
 
     <LinearLayout
+        android:layout_marginTop="3dp"
         android:id="@+id/ll"
         android:layout_below="@+id/tv_movie_name"
         android:orientation="horizontal"
@@ -37,16 +41,19 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_marginTop="20dp"
                 android:text="release date"
                 android:id="@+id/tv_release_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:layout_marginTop="10dp"
                 android:text="time"
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:layout_marginTop="10dp"
                 android:text="rating"
                 android:id="@+id/tv_rating"
                 android:layout_width="wrap_content"
@@ -56,6 +63,7 @@
     </LinearLayout>
 
     <TextView
+        android:layout_marginTop="15dp"
         android:layout_below="@id/ll"
         android:text="Overview"
         android:id="@+id/tv_overview"

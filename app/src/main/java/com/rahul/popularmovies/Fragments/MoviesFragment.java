@@ -79,6 +79,10 @@ public class MoviesFragment extends Fragment {
         gridView = (GridView)rootView.findViewById(R.id.gridview);
         movieAdapter = new MovieAdapter(Constants.MOVIE_LIST,getActivity());
         gridView.setAdapter(movieAdapter);
+        if(!Constants.MOVIE_IS_LOADED)
+        {
+            new AsyncMovieDetail(getActivity()).execute(Constants.POPULAR);
+        }
         return rootView;
     }
 

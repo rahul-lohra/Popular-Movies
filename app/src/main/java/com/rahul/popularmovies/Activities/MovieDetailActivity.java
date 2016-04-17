@@ -1,18 +1,21 @@
 package com.rahul.popularmovies.Activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rahul.popularmovies.R;
+import com.rahul.popularmovies.Utility.Constants;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
     private TextView tv_title,tv_rating,tv_release_date,tv_overview,tv_time;
     private ImageView imageView;
     private String title,rating,release_date,overview,time;
+    private Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,11 +23,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         init();
 
-        Intent intent = getIntent();
-        if (intent!=null)
-        {
-
-        }
     }
     public void  init()
     {
@@ -38,12 +36,21 @@ public class MovieDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent!=null)
         {
-            title = intent.getStringExtra("movie_title");
-            rating = intent.getStringExtra("rating");
-            release_date = intent.getStringExtra("release_date");
-            overview = intent.getStringExtra("overview");
-//            title = intent.getStringExtra();
-
+            title = intent.getStringExtra(Constants.MOVIE_TITLE);
+            rating = intent.getStringExtra(Constants.RATING);
+            release_date = intent.getStringExtra(Constants.DATE);
+            overview = intent.getStringExtra(Constants.OVERVIEW);
+            bitmap = (Bitmap)intent.getParcelableExtra("image");
+            updateView();
         }
+    }
+
+    public void updateView()
+    {
+        tv_title.setText(title);
+        tv_overview.setText(overview);
+        tv_release_date.setText(release_date);
+        tv_rating.setText(rating);
+        imageView.setImageBitmap(bitmap);
     }
 }
