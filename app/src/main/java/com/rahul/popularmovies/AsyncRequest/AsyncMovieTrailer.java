@@ -3,8 +3,11 @@ package com.rahul.popularmovies.AsyncRequest;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.rahul.popularmovies.Activities.MovieDetailActivity;
+import com.rahul.popularmovies.Adapter.TrailerAdapter;
 import com.rahul.popularmovies.Model.Movie;
 import com.rahul.popularmovies.Utility.Constants;
 import com.rahul.popularmovies.Utility.Trailer;
@@ -32,6 +35,7 @@ public class AsyncMovieTrailer extends AsyncTask<String,String,String> {
     Context context;
     String TAG = "AsyncMovieTrailer";
     String response= "";
+    TrailerAdapter trailerAdapter;
 
     public AsyncMovieTrailer(Context context)
     {
@@ -105,6 +109,10 @@ public class AsyncMovieTrailer extends AsyncTask<String,String,String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+
+        trailerAdapter = new TrailerAdapter(context,Constants.TRAILER_LIST);
+        MovieDetailActivity.recyclerView.setAdapter(trailerAdapter);
+
 
 
 
