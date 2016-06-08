@@ -5,17 +5,26 @@ package com.rahul.popularmovies.Model;
  */
 public class Movie {
 
-    String poster_path,overview,release_date,original_title,vote_average;
+    String poster_path,overview,release_date,original_title,vote_average,id;
 
     public Movie() {
     }
 
-    public Movie(String poster_path, String overview, String release_date, String original_title, String vote_average) {
+    public Movie(String poster_path, String overview, String release_date, String original_title, String vote_average,String id) {
         this.poster_path = poster_path;
         this.overview = overview;
         this.release_date = release_date;
         this.original_title = original_title;
         this.vote_average = vote_average;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getPoster_path() {

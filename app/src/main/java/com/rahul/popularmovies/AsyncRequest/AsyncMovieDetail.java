@@ -84,7 +84,8 @@ public class AsyncMovieDetail extends AsyncTask<String,String,String> {
                 String release_date = jsonArray.getJSONObject(i).getString("release_date");
                 String original_title = jsonArray.getJSONObject(i).getString("original_title");
                 String vote_average = jsonArray.getJSONObject(i).getString("vote_average");
-                Constants.MOVIE_LIST.add(new Movie(poster_path, overview, release_date, original_title, vote_average));
+                String id = jsonArray.getJSONObject(i).getString("id");
+                Constants.MOVIE_LIST.add(new Movie(poster_path, overview, release_date, original_title, vote_average,id));
             }
 
 

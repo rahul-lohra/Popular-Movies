@@ -28,25 +28,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "OnStart");
+//        Log.d(TAG, "OnStart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "OnResume");
+//        Log.d(TAG, "OnResume");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "OnStop");
+//        Log.d(TAG, "OnStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "OnDestroy");
+//        Log.d(TAG, "OnDestroy");
     }
 
     //    @Override

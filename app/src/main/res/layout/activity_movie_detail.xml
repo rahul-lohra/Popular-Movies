@@ -59,6 +59,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="rating" />
+
+                <ImageView
+
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/heart"
+                    android:tint="@color/colorPrimary" />
             </LinearLayout>
 
         </LinearLayout>
@@ -70,6 +77,13 @@
             android:layout_below="@id/ll"
             android:layout_marginTop="15dp"
             android:text="Overview" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

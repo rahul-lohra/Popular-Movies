@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.rahul.popularmovies.Adapter.TrailerAdapter;
+import com.rahul.popularmovies.AsyncRequest.AsyncMovieTrailer;
 import com.rahul.popularmovies.R;
 import com.rahul.popularmovies.Utility.Constants;
 
@@ -16,6 +20,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     private ImageView imageView;
     private String title,rating,release_date,overview,time;
     private Bitmap bitmap;
+    public static RecyclerView recyclerView;
+    String movieId;
+    TrailerAdapter trailerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +33,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
     public void  init()
     {
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         tv_overview = (TextView)findViewById(R.id.tv_overview);
         tv_rating = (TextView)findViewById(R.id.tv_rating);
         tv_release_date = (TextView)findViewById(R.id.tv_release_date);
@@ -41,8 +50,15 @@ public class MovieDetailActivity extends AppCompatActivity {
             release_date = intent.getStringExtra(Constants.DATE);
             overview = intent.getStringExtra(Constants.OVERVIEW);
             bitmap = (Bitmap)intent.getParcelableExtra("image");
+            movieId = intent.getStringExtra(Constants.MOVIE_ID);
             updateView();
+            loadTrailer();
         }
+    }
+    private void loadTrailer()
+    {
+        AsyncMovieTrailer asyncMovieTrailer = new AsyncMovieTrailer(MovieDetailActivity.this);
+        asyncMovieTrailer.execute(movieId);
     }
 
     public void updateView()

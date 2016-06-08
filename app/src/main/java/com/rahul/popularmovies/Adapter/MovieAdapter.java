@@ -49,7 +49,7 @@ public class MovieAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater li = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(convertView==null)
@@ -87,6 +87,7 @@ public class MovieAdapter extends BaseAdapter {
                     intent.putExtra(Constants.RATING,rating);
                     Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                     intent.putExtra("image",bitmap);
+                    intent.putExtra(Constants.MOVIE_ID,movieList.get(position).getId());
                     context.startActivity(intent);
 
                 }
