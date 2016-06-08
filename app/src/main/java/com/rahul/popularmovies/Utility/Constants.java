@@ -20,7 +20,7 @@ public class Constants {
     public static String DATE = "date";
     public static String TOP_RATED = "top_rated";
     public static boolean MOVIE_IS_LOADED = false;
-
+    public static String YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=";
     public static ArrayList<Movie> MOVIE_LIST= new ArrayList<>();
     public static ArrayList<Trailer> TRAILER_LIST= new ArrayList<>();
 
