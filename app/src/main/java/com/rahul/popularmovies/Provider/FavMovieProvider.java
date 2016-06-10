@@ -47,6 +47,8 @@ public class FavMovieProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(Uri uri) {
+
+        final int match = uriMatcher.match(uri);
         return null;
     }
 
