@@ -3,10 +3,8 @@ package com.rahul.popularmovies.Provider;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -19,7 +17,7 @@ import com.rahul.popularmovies.Database.FavMovieHelper;
  */
 public class FavMovieProvider extends ContentProvider {
 
-    private static final UriMatcher suriMatcher = buildUriMatcher();
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
     private FavMovieHelper favMovieHelper;
 
     static final int FAV_MOVIE = 1;
@@ -37,8 +35,8 @@ public class FavMovieProvider extends ContentProvider {
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         String authority = FavMovieContract.CONTENT_AUTHORITY;
-        suriMatcher.addURI(authority, "contacts", FAV_MOVIE);
-        suriMatcher.addURI(authority, "contacts/#", FAV_MOVIE_ID);
+        sUriMatcher.addURI(authority, "contacts", FAV_MOVIE);
+        sUriMatcher.addURI(authority, "contacts/#", FAV_MOVIE_ID);
         return matcher;
     }
 
@@ -60,7 +58,6 @@ public class FavMovieProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         favMovieHelper = new FavMovieHelper(getContext());
-
         return true;
     }
 
@@ -69,7 +66,7 @@ public class FavMovieProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
         Cursor cursor;
-        switch (suriMatcher.match(uri))
+        switch (sUriMatcher.match(uri))
         {
             case FAV_MOVIE:
                 cursor = favMovieHelper.getReadableDatabase().query(
@@ -97,8 +94,17 @@ public class FavMovieProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
 
-        final int match = suriMatcher.match(uri);
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match)
+        {
+            case FAV_MOVIE:
+                return FavMovieContract.FavMovieEntry.CONTENT_TYPE;
+            case FAV_MOVIE_ID:
+                return FavMovieContract.FavMovieEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+
+        }
     }
 
     @Nullable
@@ -106,7 +112,7 @@ public class FavMovieProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
 
         SQLiteDatabase db = favMovieHelper.getWritableDatabase();
-        final int match = suriMatcher.match(uri);
+        final int match = sUriMatcher.match(uri);
         Uri returnUri;
         switch (match) {
             case FAV_MOVIE_ID:
@@ -127,11 +133,48 @@ public class FavMovieProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase db = favMovieHelper.getWritableDatabase();
+        int match = sUriMatcher.match(uri);
+        int rowsDeleted;
+        switch (match)
+        {
+            case FAV_MOVIE_ID:
+                rowsDeleted = db.delete(FavMovieContract.FavMovieEntry.TABLE_NAME,
+                        selection,
+                        selectionArgs);
+//                String movieId = uri.getPathSegments().get(1);
+//                rowsDeleted = db.delete(FavMovieContract.FavMovieEntry.TABLE_NAME,
+//                        FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID + "="+movieId+(!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""),
+//                        selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+// Because a null deletes all rows
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }        return rowsDeleted;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+
+        final SQLiteDatabase db = favMovieHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        int rowsUpdated;
+
+        switch (match) {
+            case FAV_MOVIE_ID:
+                rowsUpdated = db.update(FavMovieContract.FavMovieEntry.TABLE_NAME,
+                        values, selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+                if (rowsUpdated != 0) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+
+        return rowsUpdated;
     }
 }
