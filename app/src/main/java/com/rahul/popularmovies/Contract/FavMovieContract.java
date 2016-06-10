@@ -39,6 +39,10 @@ public class FavMovieContract {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+        public static String getMovieIdFromUri(Uri uri) {
+            return uri.getPathSegments().get(1);
+        }
+
 
     }
 
