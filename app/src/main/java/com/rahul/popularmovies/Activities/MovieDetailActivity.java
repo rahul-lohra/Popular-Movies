@@ -1,22 +1,28 @@
 package com.rahul.popularmovies.Activities;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rahul.popularmovies.Adapter.TrailerAdapter;
 import com.rahul.popularmovies.AsyncRequest.AsyncMovieTrailer;
+import com.rahul.popularmovies.Contract.FavMovieContract;
 import com.rahul.popularmovies.R;
 import com.rahul.popularmovies.Utility.Constants;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
+    private static final String TAG ="MovieDetail" ;
     private TextView tv_title, tv_rating, tv_release_date, tv_overview, tv_time;
     private ImageView imageView, imgHeart;
     private String title, rating, release_date, overview, time;
@@ -32,6 +38,44 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
 
         init();
+
+        checkForFavMovie();
+
+    }
+
+    private void checkForFavMovie()
+    {
+        Uri uri = FavMovieContract.FavMovieEntry.CONTENT_URI;
+//        Uri URI = FavMovieContract.FavMovieEntry.CONTENT_URI.ap(CONTENT_URI, 2);
+
+        String[] projection = {
+                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID,
+        };
+
+        String [] selectionArgs = {
+                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID,
+
+        };
+
+        Cursor cursor = getContentResolver().query(uri,
+                projection,
+                movieId+" = ?",
+                selectionArgs,
+                null);
+
+        if(cursor!=null)
+        {
+            if(cursor.moveToFirst())
+            {
+                do{
+                    Log.d(TAG,"FAV MOVIE");
+                }while (cursor.moveToNext());
+            }
+        }else {
+            Log.d(TAG,"NOT FAV MOVIE");
+
+        }
+
 
     }
 
@@ -82,6 +126,13 @@ public class MovieDetailActivity extends AppCompatActivity {
             ((ImageView)view).setColorFilter(getResources().getColor(R.color.grassyGreen),android.graphics.PorterDuff.Mode.MULTIPLY);
             isMovieFav = true;
         }
+
+        saveFavMovie();
+    }
+
+    private void saveFavMovie(){
+        Uri uri;
+        ContentValues cv;
     }
 
 }
