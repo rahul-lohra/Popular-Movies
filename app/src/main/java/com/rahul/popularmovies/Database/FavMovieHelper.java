@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.rahul.popularmovies.Contract.FavMovieContract;
+
 /**
  * Created by Rahul on 6/8/2016.
  */
@@ -12,7 +14,7 @@ public class FavMovieHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     static final String DATABASE_NAME = "movie.db";
-    public FavMovieHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public FavMovieHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

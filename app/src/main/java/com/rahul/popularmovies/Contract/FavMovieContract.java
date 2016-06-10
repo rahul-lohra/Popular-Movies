@@ -1,4 +1,4 @@
-package com.rahul.popularmovies.Database;
+package com.rahul.popularmovies.Contract;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -35,7 +35,7 @@ public class FavMovieContract {
         public static final String COLUMN_ORIGINAL_TITLE = "original_title";
         public static final String COLUMN_VOTE_AVERAGE = "VOTE_AVERAGE";
 
-        public static Uri buildWeatherUri(long id) {
+        public static Uri buildFavMoviewUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 

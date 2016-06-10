@@ -66,6 +66,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
             imageView = (ImageView)itemView.findViewById(R.id.imageView);
             textView = (TextView) itemView.findViewById(R.id.tv);
 
+//            StringBuffer stringBuffer;
+//            stringBuffer.
         }
     }
 }
