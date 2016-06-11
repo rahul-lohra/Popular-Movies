@@ -68,7 +68,7 @@ public class MovieAdapter extends BaseAdapter {
             final ImageView imageView = (ImageView)convertView.findViewById(R.id.imageView);
             String str = movieList.get(position).getPoster_path();
             String img_path = str.substring(1);
-            String img_url = Constants.BASE_POSTER_URL+img_path;
+            final String img_url = Constants.BASE_POSTER_URL+img_path;
 //            Log.d(TAG,"Image url:"+img_url);
             Picasso.with(context).load(img_url).into(imageView);
             final String movie_title = movieList.get(position).getOriginal_title();
@@ -85,6 +85,8 @@ public class MovieAdapter extends BaseAdapter {
                     intent.putExtra(Constants.OVERVIEW,overview);
                     intent.putExtra(Constants.DATE,release_date);
                     intent.putExtra(Constants.RATING,rating);
+                    intent.putExtra(Constants.POSTER_PATH,img_url);
+
                     Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                     intent.putExtra("image",bitmap);
                     intent.putExtra(Constants.MOVIE_ID,movieList.get(position).getId());

@@ -115,7 +115,7 @@ public class FavMovieProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         Uri returnUri;
         switch (match) {
-            case FAV_MOVIE_ID:
+            case FAV_MOVIE:
                 long rowID = db.insert(FavMovieContract.FavMovieEntry.TABLE_NAME, null, values);
                 if (rowID > 0) {
                     returnUri = FavMovieContract.FavMovieEntry.buildFavMoviewUri(rowID);

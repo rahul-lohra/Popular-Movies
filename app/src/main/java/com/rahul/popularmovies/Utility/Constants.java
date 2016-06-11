@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public class Constants {
     public static final String MOVIE_ID = "movie_id" ;
+    public static final String POSTER_PATH ="poster_path" ;
     public static String BASE_URL = "https://api.themoviedb.org";
     public static String BASE_POSTER_URL = "http://image.tmdb.org/t/p/w185//";
     public static String API_KEY = "435d2f3f2c2203d9cdf56e8386c80b54";

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,7 +29,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String title, rating, release_date, overview, time;
     private Bitmap bitmap;
     public static RecyclerView recyclerView;
-    String movieId;
+    String movieId,posterPath;
     TrailerAdapter trailerAdapter;
     boolean isMovieFav = false;
 
@@ -38,7 +39,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
 
         init();
-
         checkForFavMovie();
 
     }
@@ -46,20 +46,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void checkForFavMovie()
     {
         Uri uri = FavMovieContract.FavMovieEntry.CONTENT_URI;
-//        Uri URI = FavMovieContract.FavMovieEntry.CONTENT_URI.ap(CONTENT_URI, 2);
-
         String[] projection = {
                 FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID,
         };
-
         String [] selectionArgs = {
-                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID,
-
+                movieId
         };
-
         Cursor cursor = getContentResolver().query(uri,
                 projection,
-                movieId+" = ?",
+                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID+" = ?",
                 selectionArgs,
                 null);
 
@@ -70,6 +65,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                 do{
                     Log.d(TAG,"FAV MOVIE");
                 }while (cursor.moveToNext());
+            }else {
+                Log.d(TAG,"***111*** NOT A FAV MOVIE");
             }
         }else {
             Log.d(TAG,"NOT FAV MOVIE");
@@ -98,6 +95,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             overview = intent.getStringExtra(Constants.OVERVIEW);
             bitmap = (Bitmap) intent.getParcelableExtra("image");
             movieId = intent.getStringExtra(Constants.MOVIE_ID);
+            posterPath = intent.getStringExtra(Constants.POSTER_PATH);
+
             updateView();
             loadTrailer();
         }
@@ -119,10 +118,12 @@ public class MovieDetailActivity extends AppCompatActivity {
     public void heartClick(View view) {
         if (isMovieFav) {
 
+            Log.d(TAG,"mark Red");
             ((ImageView)view).setColorFilter(getResources().getColor(R.color.white),android.graphics.PorterDuff.Mode.MULTIPLY);
             isMovieFav = false;
 
         } else {
+            Log.d(TAG,"mark Green");
             ((ImageView)view).setColorFilter(getResources().getColor(R.color.grassyGreen),android.graphics.PorterDuff.Mode.MULTIPLY);
             isMovieFav = true;
         }
@@ -132,7 +133,30 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void saveFavMovie(){
         Uri uri;
-        ContentValues cv;
+        ContentValues cv = new ContentValues();
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID,movieId);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_ORIGINAL_TITLE,title);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_OVERVIEW,overview);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_POSTER_PATH,posterPath);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_RELEASE_DATE,release_date);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_VOTE_AVERAGE,rating);
+
+
+
+        uri = getContentResolver().insert(FavMovieContract.FavMovieEntry.CONTENT_URI,cv);
+
+        if(uri!=null)
+        {
+            Log.d(TAG,"New Uri:"+uri.getPath()+"");
+
+        }else {
+            Log.d(TAG,"Uri is null");
+
+        }
+
+
+
+
     }
 
 }
