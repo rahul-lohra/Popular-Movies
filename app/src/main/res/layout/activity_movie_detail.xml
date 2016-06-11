@@ -66,7 +66,6 @@
                     android:text="rating" />
 
                 <ImageView
-                    android:onClick="heartClick"
                     android:id="@+id/img_heart"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -92,6 +91,8 @@
         </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
+
+    <!--android:backgroundTint="@color/colorAccent"-->
 
 
 </ScrollView>

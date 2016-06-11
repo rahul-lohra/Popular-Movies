@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,25 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         init();
         checkForFavMovie();
+
+        imgHeart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isMovieFav) {
+
+                    Log.d(TAG,"mark Accent");
+                    imgHeart.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
+//                    imgHeart.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+                    isMovieFav = false;
+
+                } else {
+                    Log.d(TAG,"mark Green");
+                    imgHeart.getBackground().setColorFilter(getResources().getColor(R.color.grassyGreen), PorterDuff.Mode.MULTIPLY);
+//                    imgHeart.setColorFilter(getResources().getColor(R.color.grassyGreen), PorterDuff.Mode.SRC_IN);
+                    isMovieFav = true;
+                }
+            }
+        });
 
     }
 
@@ -116,20 +136,22 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     public void heartClick(View view) {
-        if (isMovieFav) {
+//        if (isMovieFav) {
+//
+//            Log.d(TAG,"mark Accent");
+//            ((ImageView)view).setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+//            isMovieFav = false;
+//
+//        } else {
+//            Log.d(TAG,"mark Green");
+//            ((ImageView)view).setColorFilter(getResources().getColor(R.color.grassyGreen), PorterDuff.Mode.SRC_ATOP);
+//            isMovieFav = true;
+//        }
 
-            Log.d(TAG,"mark Red");
-            ((ImageView)view).setColorFilter(getResources().getColor(R.color.white),android.graphics.PorterDuff.Mode.MULTIPLY);
-            isMovieFav = false;
-
-        } else {
-            Log.d(TAG,"mark Green");
-            ((ImageView)view).setColorFilter(getResources().getColor(R.color.grassyGreen),android.graphics.PorterDuff.Mode.MULTIPLY);
-            isMovieFav = true;
-        }
-
-        saveFavMovie();
+     //   saveFavMovie();
     }
+
+
 
     private void saveFavMovie(){
         Uri uri;
