@@ -24,13 +24,13 @@ import com.rahul.popularmovies.Utility.Constants;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
-    private static final String TAG ="MovieDetail" ;
+    private static final String TAG = "MovieDetail";
     private TextView tv_title, tv_rating, tv_release_date, tv_overview, tv_time;
     private ImageView imageView, imgHeart;
     private String title, rating, release_date, overview, time;
     private Bitmap bitmap;
     public static RecyclerView recyclerView;
-    String movieId,posterPath;
+    String movieId, posterPath;
     TrailerAdapter trailerAdapter;
     boolean isMovieFav = false;
 
@@ -46,50 +46,74 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isMovieFav) {
-
-                    Log.d(TAG,"mark Accent");
-                    imgHeart.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
-//                    imgHeart.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
-                    isMovieFav = false;
+                    //delete row
+                    deleteFavMovie();
+//                    Log.d(TAG,"mark Accent");
+//                    imgHeart.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
+////                    imgHeart.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+//                    isMovieFav = false;
 
                 } else {
-                    Log.d(TAG,"mark Green");
-                    imgHeart.getBackground().setColorFilter(getResources().getColor(R.color.grassyGreen), PorterDuff.Mode.MULTIPLY);
-//                    imgHeart.setColorFilter(getResources().getColor(R.color.grassyGreen), PorterDuff.Mode.SRC_IN);
-                    isMovieFav = true;
+                    //add movie in favourite
+                    saveFavMovie();
                 }
             }
         });
 
     }
 
-    private void checkForFavMovie()
-    {
+    private void deleteFavMovie() {
+        int mRowsDeleted = 0;
+        String[] mSelectionArgs = {
+                movieId
+        };
+        String mSelectionClause = FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID + " LIKE ?";
+        mRowsDeleted = getContentResolver().delete(FavMovieContract.FavMovieEntry.CONTENT_URI,
+                mSelectionClause,
+                mSelectionArgs
+        );
+        Log.d(TAG, "No of Rows Deleted:" + mRowsDeleted);
+        if (mRowsDeleted > 0) {
+            unMarkFavourite();
+        }
+    }
+
+    private void markFavourite() {
+        imgHeart.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
+        isMovieFav = true;
+    }
+
+    private void unMarkFavourite() {
+        imgHeart.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.MULTIPLY);
+        isMovieFav = false;
+    }
+
+    private void checkForFavMovie() {
         Uri uri = FavMovieContract.FavMovieEntry.CONTENT_URI;
         String[] projection = {
                 FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID,
         };
-        String [] selectionArgs = {
+        String[] selectionArgs = {
                 movieId
         };
         Cursor cursor = getContentResolver().query(uri,
                 projection,
-                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID+" = ?",
+                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID + " = ?",
                 selectionArgs,
                 null);
 
-        if(cursor!=null)
-        {
-            if(cursor.moveToFirst())
-            {
-                do{
-                    Log.d(TAG,"FAV MOVIE");
-                }while (cursor.moveToNext());
-            }else {
-                Log.d(TAG,"***111*** NOT A FAV MOVIE");
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    Log.d(TAG, "FAV MOVIE");
+                    markFavourite();
+                } while (cursor.moveToNext());
+            } else {
+                Log.d(TAG, "***111*** NOT A FAV MOVIE");
+                unMarkFavourite();
             }
-        }else {
-            Log.d(TAG,"NOT FAV MOVIE");
+        } else {
+            Log.d(TAG, "NOT FAV MOVIE");
 
         }
 
@@ -148,35 +172,31 @@ public class MovieDetailActivity extends AppCompatActivity {
 //            isMovieFav = true;
 //        }
 
-     //   saveFavMovie();
+        //   saveFavMovie();
     }
 
 
-
-    private void saveFavMovie(){
+    private void saveFavMovie() {
         Uri uri;
         ContentValues cv = new ContentValues();
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID,movieId);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_ORIGINAL_TITLE,title);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_OVERVIEW,overview);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_POSTER_PATH,posterPath);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_RELEASE_DATE,release_date);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_VOTE_AVERAGE,rating);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID, movieId);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_ORIGINAL_TITLE, title);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_OVERVIEW, overview);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_POSTER_PATH, posterPath);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_RELEASE_DATE, release_date);
+        cv.put(FavMovieContract.FavMovieEntry.COLUMN_VOTE_AVERAGE, rating);
 
 
+        uri = getContentResolver().insert(FavMovieContract.FavMovieEntry.CONTENT_URI, cv);
 
-        uri = getContentResolver().insert(FavMovieContract.FavMovieEntry.CONTENT_URI,cv);
+        if (uri != null) {
+            Log.d(TAG, "New Uri:" + uri.getPath() + "");
+            markFavourite();
 
-        if(uri!=null)
-        {
-            Log.d(TAG,"New Uri:"+uri.getPath()+"");
-
-        }else {
-            Log.d(TAG,"Uri is null");
+        } else {
+            Log.d(TAG, "Uri is null");
 
         }
-
-
 
 
     }

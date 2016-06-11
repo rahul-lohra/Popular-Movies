@@ -138,7 +138,7 @@ public class FavMovieProvider extends ContentProvider {
         int rowsDeleted;
         switch (match)
         {
-            case FAV_MOVIE_ID:
+            case FAV_MOVIE:
                 rowsDeleted = db.delete(FavMovieContract.FavMovieEntry.TABLE_NAME,
                         selection,
                         selectionArgs);
