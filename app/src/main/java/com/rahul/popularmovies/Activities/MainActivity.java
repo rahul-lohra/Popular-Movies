@@ -6,22 +6,38 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 
+import com.rahul.popularmovies.Fragments.MovieDetailFragment;
 import com.rahul.popularmovies.Fragments.MoviesFragment;
 import com.rahul.popularmovies.R;
 
 public class MainActivity extends AppCompatActivity {
 
     String TAG = "MainActivity";
+    private boolean mTwoPane;
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG,"OnCreate");
-        if(savedInstanceState==null)
+//        if(savedInstanceState==null)
+//        {
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.container,new MoviesFragment())
+//                    .commit();
+//        }
+
+        if((findViewById(R.id.detail_movie)!=null))
         {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container,new MoviesFragment())
-                    .commit();
+            mTwoPane = true;
+            if(savedInstanceState==null)
+            {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detail_movie,new MovieDetailFragment(),DETAILFRAGMENT_TAG)
+                        .commit();
+            }
+        }else{
+            mTwoPane = false;
         }
     }
 
