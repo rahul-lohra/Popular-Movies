@@ -35,8 +35,8 @@ public class FavMovieProvider extends ContentProvider {
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         String authority = FavMovieContract.CONTENT_AUTHORITY;
-        sUriMatcher.addURI(authority, "contacts", FAV_MOVIE);
-        sUriMatcher.addURI(authority, "contacts/#", FAV_MOVIE_ID);
+        matcher.addURI(authority, FavMovieContract.PATH_FAV_MOVIE, FAV_MOVIE);
+        matcher.addURI(authority, FavMovieContract.PATH_FAV_MOVIE+"/#", FAV_MOVIE_ID);
         return matcher;
     }
 

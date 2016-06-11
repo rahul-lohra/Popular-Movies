@@ -25,7 +25,7 @@ public class FavMovieHelper extends SQLiteOpenHelper {
                 FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID + " TEXT UNIQUE NOT NULL, " +
                 FavMovieContract.FavMovieEntry.COLUMN_ORIGINAL_TITLE + " TEXT NOT NULL, " +
                 FavMovieContract.FavMovieEntry.COLUMN_OVERVIEW + " REAL NOT NULL, " +
-                FavMovieContract.FavMovieEntry.COLUMN_POSTER_PATH + " REAL NOT NULL " +
+                FavMovieContract.FavMovieEntry.COLUMN_POSTER_PATH + " REAL NOT NULL, " +
                 FavMovieContract.FavMovieEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL " +
 
                 " );";

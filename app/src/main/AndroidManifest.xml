@@ -11,8 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:authorities="com.rahul.popularmovies"
+            android:authorities="@string/authority"
             android:name=".Provider.FavMovieProvider"/>
+
+
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
