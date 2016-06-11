@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         }else{
             mTwoPane = false;
         }
+
+        Log.d(TAG,"isTwoPane:"+mTwoPane+"");
     }
 
     @Override
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main_activity,menu);
+//        getMenuInflater().inflate(R.menu.activity_main,menu);
 //        return true;
 //    }
 }
