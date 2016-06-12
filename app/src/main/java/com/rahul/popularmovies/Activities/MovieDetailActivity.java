@@ -50,12 +50,12 @@ public class MovieDetailActivity extends AppCompatActivity {
             Intent intent = getIntent();
 
             Log.d(TAG,"intent.getExtras()="+intent.getExtras().getString(Constants.MOVIE_TITLE));
-            arguments.putParcelable("bundle",getIntent().getExtras());
+//            arguments.putParcelable("bundle",getIntent().getExtras());
 
 
 
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
-            movieDetailFragment.setArguments(arguments);
+            movieDetailFragment.setArguments(getIntent().getExtras());
 
 
 

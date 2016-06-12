@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.rahul.popularmovies.Activities.MovieDetailActivity;
 import com.rahul.popularmovies.Adapter.TrailerAdapter;
+import com.rahul.popularmovies.Fragments.MovieDetailFragment;
 import com.rahul.popularmovies.Model.Movie;
 import com.rahul.popularmovies.Utility.Constants;
 import com.rahul.popularmovies.Model.Trailer;
@@ -111,7 +112,7 @@ public class AsyncMovieTrailer extends AsyncTask<String,String,String> {
         super.onPostExecute(s);
 
         trailerAdapter = new TrailerAdapter(context,Constants.TRAILER_LIST);
-        MovieDetailActivity.recyclerView.setAdapter(trailerAdapter);
+        MovieDetailFragment.recyclerView.setAdapter(trailerAdapter);
 
 
 
