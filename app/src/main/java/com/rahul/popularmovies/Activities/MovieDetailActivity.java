@@ -39,45 +39,62 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_movie_detail);
+//        setContentView(R.layout.activity_movie_detail);
+        setContentView(R.layout.frame_layout);
+//        Bundle args = getAr
+        if(savedInstanceState==null)
+        {
 
-//        if(savedInstanceState==null)
-//        {
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.container,new MovieDetailFragment())
-//                    .commit();
-//        }
-        init();
-        checkForFavMovie();
+            Bundle arguments = new Bundle();
 
-        imgHeart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isMovieFav) {
-                    deleteFavMovie();
-                } else {
-                    saveFavMovie();
-                }
-            }
-        });
+            Intent intent = getIntent();
 
-    }
+            Log.d(TAG,"intent.getExtras()="+intent.getExtras().getString(Constants.MOVIE_TITLE));
+            arguments.putParcelable("bundle",getIntent().getExtras());
 
-    private void deleteFavMovie() {
-        int mRowsDeleted = 0;
-        String[] mSelectionArgs = {
-                movieId
-        };
-        String mSelectionClause = FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID + " LIKE ?";
-        mRowsDeleted = getContentResolver().delete(FavMovieContract.FavMovieEntry.CONTENT_URI,
-                mSelectionClause,
-                mSelectionArgs
-        );
-        Log.d(TAG, "No of Rows Deleted:" + mRowsDeleted);
-        if (mRowsDeleted > 0) {
-            unMarkFavourite();
+
+
+            MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+            movieDetailFragment.setArguments(arguments);
+
+
+
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container,movieDetailFragment)
+                    .commit();
         }
+//        init();
+//        checkForFavMovie();
+//
+//        imgHeart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isMovieFav) {
+//                    deleteFavMovie();
+//                } else {
+//                    saveFavMovie();
+//                }
+//            }
+//        });
+
     }
+
+//    private void deleteFavMovie() {
+//        int mRowsDeleted = 0;
+//        String[] mSelectionArgs = {
+//                movieId
+//        };
+//        String mSelectionClause = FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID + " LIKE ?";
+//        mRowsDeleted = getContentResolver().delete(FavMovieContract.FavMovieEntry.CONTENT_URI,
+//                mSelectionClause,
+//                mSelectionArgs
+//        );
+//        Log.d(TAG, "No of Rows Deleted:" + mRowsDeleted);
+//        if (mRowsDeleted > 0) {
+//            unMarkFavourite();
+//        }
+//    }
 
     private void markFavourite() {
         imgHeart.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
@@ -89,37 +106,37 @@ public class MovieDetailActivity extends AppCompatActivity {
         isMovieFav = false;
     }
 
-    private void checkForFavMovie() {
-        Uri uri = FavMovieContract.FavMovieEntry.CONTENT_URI;
-        String[] projection = {
-                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID,
-        };
-        String[] selectionArgs = {
-                movieId
-        };
-        Cursor cursor = getContentResolver().query(uri,
-                projection,
-                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID + " = ?",
-                selectionArgs,
-                null);
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    Log.d(TAG, "FAV MOVIE");
-                    markFavourite();
-                } while (cursor.moveToNext());
-            } else {
-                Log.d(TAG, "***111*** NOT A FAV MOVIE");
-                unMarkFavourite();
-            }
-        } else {
-            Log.d(TAG, "NOT FAV MOVIE");
-
-        }
-
-
-    }
+//    private void checkForFavMovie() {
+//        Uri uri = FavMovieContract.FavMovieEntry.CONTENT_URI;
+//        String[] projection = {
+//                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID,
+//        };
+//        String[] selectionArgs = {
+//                movieId
+//        };
+//        Cursor cursor = getContentResolver().query(uri,
+//                projection,
+//                FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID + " = ?",
+//                selectionArgs,
+//                null);
+//
+//        if (cursor != null) {
+//            if (cursor.moveToFirst()) {
+//                do {
+//                    Log.d(TAG, "FAV MOVIE");
+//                    markFavourite();
+//                } while (cursor.moveToNext());
+//            } else {
+//                Log.d(TAG, "***111*** NOT A FAV MOVIE");
+//                unMarkFavourite();
+//            }
+//        } else {
+//            Log.d(TAG, "NOT FAV MOVIE");
+//
+//        }
+//
+//
+//    }
 
     public void init() {
         imgHeart = (ImageView) findViewById(R.id.img_heart);
@@ -132,56 +149,56 @@ public class MovieDetailActivity extends AppCompatActivity {
         tv_title = (TextView) findViewById(R.id.tv_movie_name);
         imageView = (ImageView) findViewById(R.id.imageView);
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            title = intent.getStringExtra(Constants.MOVIE_TITLE);
-            rating = intent.getStringExtra(Constants.RATING);
-            release_date = intent.getStringExtra(Constants.DATE);
-            overview = intent.getStringExtra(Constants.OVERVIEW);
-            bitmap = (Bitmap) intent.getParcelableExtra("image");
-            movieId = intent.getStringExtra(Constants.MOVIE_ID);
-            posterPath = intent.getStringExtra(Constants.POSTER_PATH);
-
-            updateView();
-            loadTrailer();
-        }
+//        Intent intent = getIntent();
+//        if (intent != null) {
+//            title = intent.getStringExtra(Constants.MOVIE_TITLE);
+//            rating = intent.getStringExtra(Constants.RATING);
+//            release_date = intent.getStringExtra(Constants.DATE);
+//            overview = intent.getStringExtra(Constants.OVERVIEW);
+//            bitmap = (Bitmap) intent.getParcelableExtra("image");
+//            movieId = intent.getStringExtra(Constants.MOVIE_ID);
+//            posterPath = intent.getStringExtra(Constants.POSTER_PATH);
+//
+//            updateView();
+//            loadTrailer();
+//        }
     }
 
-    private void loadTrailer() {
-        AsyncMovieTrailer asyncMovieTrailer = new AsyncMovieTrailer(MovieDetailActivity.this);
-        asyncMovieTrailer.execute(movieId);
-    }
+//    private void loadTrailer() {
+//        AsyncMovieTrailer asyncMovieTrailer = new AsyncMovieTrailer(MovieDetailActivity.this);
+//        asyncMovieTrailer.execute(movieId);
+//    }
 
-    public void updateView() {
-        tv_title.setText(title);
-        tv_overview.setText(overview);
-        tv_release_date.setText(release_date);
-        tv_rating.setText(rating);
-        imageView.setImageBitmap(bitmap);
-    }
-
-
-    private void saveFavMovie() {
-        Uri uri;
-        ContentValues cv = new ContentValues();
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID, movieId);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_ORIGINAL_TITLE, title);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_OVERVIEW, overview);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_POSTER_PATH, posterPath);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_RELEASE_DATE, release_date);
-        cv.put(FavMovieContract.FavMovieEntry.COLUMN_VOTE_AVERAGE, rating);
+//    public void updateView() {
+//        tv_title.setText(title);
+//        tv_overview.setText(overview);
+//        tv_release_date.setText(release_date);
+//        tv_rating.setText(rating);
+//        imageView.setImageBitmap(bitmap);
+//    }
 
 
-        uri = getContentResolver().insert(FavMovieContract.FavMovieEntry.CONTENT_URI, cv);
-
-        if (uri != null) {
-            Log.d(TAG, "New Uri:" + uri.getPath() + "");
-            markFavourite();
-
-        } else {
-            Log.d(TAG, "Uri is null");
-        }
-
-    }
+//    private void saveFavMovie() {
+//        Uri uri;
+//        ContentValues cv = new ContentValues();
+//        cv.put(FavMovieContract.FavMovieEntry.COLUMN_MOVIE_ID, movieId);
+//        cv.put(FavMovieContract.FavMovieEntry.COLUMN_ORIGINAL_TITLE, title);
+//        cv.put(FavMovieContract.FavMovieEntry.COLUMN_OVERVIEW, overview);
+//        cv.put(FavMovieContract.FavMovieEntry.COLUMN_POSTER_PATH, posterPath);
+//        cv.put(FavMovieContract.FavMovieEntry.COLUMN_RELEASE_DATE, release_date);
+//        cv.put(FavMovieContract.FavMovieEntry.COLUMN_VOTE_AVERAGE, rating);
+//
+//
+//        uri = getContentResolver().insert(FavMovieContract.FavMovieEntry.CONTENT_URI, cv);
+//
+//        if (uri != null) {
+//            Log.d(TAG, "New Uri:" + uri.getPath() + "");
+//            markFavourite();
+//
+//        } else {
+//            Log.d(TAG, "Uri is null");
+//        }
+//
+//    }
 
 }

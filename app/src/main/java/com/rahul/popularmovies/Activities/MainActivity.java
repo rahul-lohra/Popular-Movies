@@ -80,19 +80,18 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.Ca
                                String id,
                                Bitmap bitmap) {
 
+        Bundle args = new Bundle();
+        args.putString(Constants.MOVIE_TITLE,original_title);
+        args.putString(Constants.OVERVIEW,overview);
+        args.putString(Constants.DATE,release_date);
+        args.putString(Constants.RATING,vote_average);
+        args.putString(Constants.POSTER_PATH,poster_path);
+        args.putParcelable("image",bitmap);
+        args.putString(Constants.MOVIE_ID,id);
+
         if(mTwoPane)
         {
             Log.d(TAG,"Two Pane");
-
-            Bundle args = new Bundle();
-            args.putString(Constants.MOVIE_TITLE,original_title);
-            args.putString(Constants.OVERVIEW,overview);
-            args.putString(Constants.DATE,release_date);
-            args.putString(Constants.RATING,vote_average);
-            args.putString(Constants.POSTER_PATH,poster_path);
-            args.putParcelable("image",bitmap);
-            args.putString(Constants.MOVIE_ID,id);
-
 
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
             movieDetailFragment.setArguments(args);
@@ -103,13 +102,14 @@ public class MainActivity extends AppCompatActivity implements MoviesFragment.Ca
         }else {
             Log.d(TAG,"Single Pane");
             Intent intent = new Intent(MainActivity.this, MovieDetailActivity.class);
-            intent.putExtra(Constants.MOVIE_TITLE,original_title);
-            intent.putExtra(Constants.OVERVIEW,overview);
-            intent.putExtra(Constants.DATE,release_date);
-            intent.putExtra(Constants.RATING,vote_average);
-            intent.putExtra(Constants.POSTER_PATH,poster_path);
-            intent.putExtra("image",bitmap);
-            intent.putExtra(Constants.MOVIE_ID,id);
+//            intent.putExtra(Constants.MOVIE_TITLE,original_title);
+//            intent.putExtra(Constants.OVERVIEW,overview);
+//            intent.putExtra(Constants.DATE,release_date);
+//            intent.putExtra(Constants.RATING,vote_average);
+//            intent.putExtra(Constants.POSTER_PATH,poster_path);
+//            intent.putExtra("image",bitmap);
+//            intent.putExtra(Constants.MOVIE_ID,id);
+            intent.putExtras(args);
             startActivity(intent);
         }
     }

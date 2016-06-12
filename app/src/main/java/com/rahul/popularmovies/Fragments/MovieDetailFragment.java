@@ -31,8 +31,6 @@ public class MovieDetailFragment extends Fragment {
         {
             Log.d(TAG,"Data is Present in bundle");
 
-
-
             return rootView;
         }else {
             Log.d(TAG,"Bundle is empty");
