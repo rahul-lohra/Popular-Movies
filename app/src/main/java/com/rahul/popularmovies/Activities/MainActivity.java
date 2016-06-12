@@ -1,5 +1,8 @@
 package com.rahul.popularmovies.Activities;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,8 +12,9 @@ import android.view.Menu;
 import com.rahul.popularmovies.Fragments.MovieDetailFragment;
 import com.rahul.popularmovies.Fragments.MoviesFragment;
 import com.rahul.popularmovies.R;
+import com.rahul.popularmovies.Utility.Constants;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MoviesFragment.Callback {
 
     String TAG = "MainActivity";
     private boolean mTwoPane;
@@ -65,6 +69,49 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 //        Log.d(TAG, "OnDestroy");
+    }
+
+    @Override
+    public void onItemSelected(String poster_path,
+                               String overview,
+                               String release_date,
+                               String original_title,
+                               String vote_average,
+                               String id,
+                               Bitmap bitmap) {
+
+        if(mTwoPane)
+        {
+            Log.d(TAG,"Two Pane");
+
+            Bundle args = new Bundle();
+            args.putString(Constants.MOVIE_TITLE,original_title);
+            args.putString(Constants.OVERVIEW,overview);
+            args.putString(Constants.DATE,release_date);
+            args.putString(Constants.RATING,vote_average);
+            args.putString(Constants.POSTER_PATH,poster_path);
+            args.putParcelable("image",bitmap);
+            args.putString(Constants.MOVIE_ID,id);
+
+
+            MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+            movieDetailFragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_movie,movieDetailFragment,DETAILFRAGMENT_TAG)
+                    .commit();
+        }else {
+            Log.d(TAG,"Single Pane");
+            Intent intent = new Intent(MainActivity.this, MovieDetailActivity.class);
+            intent.putExtra(Constants.MOVIE_TITLE,original_title);
+            intent.putExtra(Constants.OVERVIEW,overview);
+            intent.putExtra(Constants.DATE,release_date);
+            intent.putExtra(Constants.RATING,vote_average);
+            intent.putExtra(Constants.POSTER_PATH,poster_path);
+            intent.putExtra("image",bitmap);
+            intent.putExtra(Constants.MOVIE_ID,id);
+            startActivity(intent);
+        }
     }
 
     //    @Override

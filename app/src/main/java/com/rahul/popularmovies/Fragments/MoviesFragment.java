@@ -1,10 +1,12 @@
 package com.rahul.popularmovies.Fragments;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,6 +38,28 @@ public class MoviesFragment extends Fragment {
     GridView gridView;
     MovieAdapter movieAdapter;
     private boolean isReceiverRegistered;
+    Callback mCallback;
+
+    public interface Callback{
+        public void onItemSelected(String poster_path,
+                                   String overview,
+                                   String release_date,
+                                   String original_title,
+                                   String vote_average,
+                                   String id,
+                                   Bitmap bitmap);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (Callback) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnItemClickedListener");
+        }
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +76,7 @@ public class MoviesFragment extends Fragment {
             if(b)
             {
                 //setAdapter
-                movieAdapter = new MovieAdapter(Constants.MOVIE_LIST,getActivity());
+                movieAdapter = new MovieAdapter(Constants.MOVIE_LIST,getActivity(),mCallback);
                 gridView.setAdapter(movieAdapter);
             }
         }
@@ -85,7 +109,7 @@ public class MoviesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movies_fragment, container, false);
         gridView = (GridView)rootView.findViewById(R.id.gridview);
-        movieAdapter = new MovieAdapter(Constants.MOVIE_LIST,getActivity());
+        movieAdapter = new MovieAdapter(Constants.MOVIE_LIST,getActivity(),mCallback);
         gridView.setAdapter(movieAdapter);
         if(!Constants.MOVIE_IS_LOADED)
         {
@@ -140,7 +164,7 @@ public class MoviesFragment extends Fragment {
 
 
             }
-            movieAdapter = new MovieAdapter(Constants.MOVIE_LIST,getActivity());
+            movieAdapter = new MovieAdapter(Constants.MOVIE_LIST,getActivity(),mCallback);
             gridView.setAdapter(movieAdapter);
 
         }else {

@@ -11,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.rahul.popularmovies.Activities.MainActivity;
 import com.rahul.popularmovies.Activities.MovieDetailActivity;
+import com.rahul.popularmovies.Fragments.MovieDetailFragment;
+import com.rahul.popularmovies.Fragments.MoviesFragment;
 import com.rahul.popularmovies.Model.Movie;
 import com.rahul.popularmovies.R;
 import com.rahul.popularmovies.Utility.Constants;
@@ -28,10 +31,18 @@ public class MovieAdapter extends BaseAdapter {
     ArrayList<Movie> movieList;
     Context context;
     String TAG = "MovieAdapter";
-    public MovieAdapter(ArrayList<Movie> movieList,Context context)
+    MoviesFragment.Callback callback;
+    public MovieAdapter(ArrayList<Movie> movieList, Context context, MoviesFragment.Callback callback)
     {
         this.movieList = movieList;
         this.context = context;
+        this.callback = callback;
+    }
+
+
+    public interface AdapterCallback
+    {
+        public int x();
     }
     @Override
     public int getCount() {
@@ -75,6 +86,8 @@ public class MovieAdapter extends BaseAdapter {
             final String overview = movieList.get(position).getOverview();
             final String release_date = movieList.get(position).getRelease_date();
             final String rating = movieList.get(position).getVote_average();
+            final String movieId = movieList.get(position).getId();
+
 
 
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -90,8 +103,16 @@ public class MovieAdapter extends BaseAdapter {
                     Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
                     intent.putExtra("image",bitmap);
                     intent.putExtra(Constants.MOVIE_ID,movieList.get(position).getId());
-                    context.startActivity(intent);
+//                    context.startActivity(intent);
 
+
+                    callback.onItemSelected(img_url,
+                            overview,
+                            release_date,
+                            movie_title,
+                            rating,
+                            movieId,
+                            bitmap);
                 }
             });
         }

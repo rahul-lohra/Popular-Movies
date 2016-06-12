@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.rahul.popularmovies.Adapter.TrailerAdapter;
 import com.rahul.popularmovies.AsyncRequest.AsyncMovieTrailer;
 import com.rahul.popularmovies.Contract.FavMovieContract;
+import com.rahul.popularmovies.Fragments.MovieDetailFragment;
 import com.rahul.popularmovies.R;
 import com.rahul.popularmovies.Utility.Constants;
 
@@ -37,8 +38,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_movie_detail);
 
+//        if(savedInstanceState==null)
+//        {
+//            getSupportFragmentManager().beginTransaction()
+//                    .add(R.id.container,new MovieDetailFragment())
+//                    .commit();
+//        }
         init();
         checkForFavMovie();
 
@@ -46,15 +54,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isMovieFav) {
-                    //delete row
                     deleteFavMovie();
-//                    Log.d(TAG,"mark Accent");
-//                    imgHeart.getBackground().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
-////                    imgHeart.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
-//                    isMovieFav = false;
-
                 } else {
-                    //add movie in favourite
                     saveFavMovie();
                 }
             }
@@ -159,22 +160,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
     }
 
-    public void heartClick(View view) {
-//        if (isMovieFav) {
-//
-//            Log.d(TAG,"mark Accent");
-//            ((ImageView)view).setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-//            isMovieFav = false;
-//
-//        } else {
-//            Log.d(TAG,"mark Green");
-//            ((ImageView)view).setColorFilter(getResources().getColor(R.color.grassyGreen), PorterDuff.Mode.SRC_ATOP);
-//            isMovieFav = true;
-//        }
-
-        //   saveFavMovie();
-    }
-
 
     private void saveFavMovie() {
         Uri uri;
@@ -195,9 +180,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         } else {
             Log.d(TAG, "Uri is null");
-
         }
-
 
     }
 
