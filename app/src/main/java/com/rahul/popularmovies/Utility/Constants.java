@@ -25,7 +25,4 @@ public class Constants {
     public static ArrayList<Movie> MOVIE_LIST= new ArrayList<>();
     public static ArrayList<Trailer> TRAILER_LIST= new ArrayList<>();
 
-
-
-
 }
