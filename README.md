@@ -20,5 +20,8 @@ Steps To Insert Api Key<br/>
 3. Insert your key in :  public static String API_KEY = "YOUR API KEY";<br/>
 
 ## Screens
+![screen](../master/screens/list.png)
+
+![screen](../master/screens/detail.png)
 
 
